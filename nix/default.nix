@@ -34,10 +34,7 @@ stdenv.mkDerivation rec {
     wrapGAppsHook
     autoPatchelfHook
     gobject-introspection
-    gobject-introspection-unwrapped
     glib
-    glib.dev
-    gjs
   ];
 
   buildInputs = [
@@ -45,10 +42,10 @@ stdenv.mkDerivation rec {
     gtk4
     gtk4-layer-shell
     nodejs
-    glib.dev
     #glib
     python3
     cairo
+    gjs
   ];
 
   propagatedBuildInputs = [
