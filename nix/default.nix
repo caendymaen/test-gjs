@@ -8,13 +8,15 @@
   gtk3,
   gtk4,
   wrapGAppsHook,
+  wrapGAppsHook4,
   gtk4-layer-shell,
   autoPatchelfHook,
   glib,
   glibc,
   python3,
   cairo,
-  gjs
+  gjs,
+  at-spi2-atk
 }:
 
 stdenv.mkDerivation rec {
@@ -24,33 +26,35 @@ stdenv.mkDerivation rec {
   src = ../.;
 
   #src = ../.;
- installPhase = ''
-    mkdir -p $out
-    cp -r ./ $out 
-  '';
-    #dontWrapGApps = true;
+    dontWrapGApps = true;
 
   nativeBuildInputs = [
-    wrapGAppsHook
     autoPatchelfHook
     gobject-introspection
-    glib
+    wrapGAppsHook
   ];
 
   buildInputs = [
-    gtk3
+    glib
     gtk4
     gtk4-layer-shell
-    nodejs
-    #glib
-    python3
-    cairo
     gjs
+    at-spi2-atk
+    python3
   ];
 
   propagatedBuildInputs = [
     #glib
   ];
+ installPhase = ''
+    mkdir -p $out
+    cp -r ./ $out 
+    chmod +x $out/test.js
+  '';
+
+  postFixup = ''
+  wrapGApp "$out/test.js"
+'';
 
   outputs = [ "out" ];
 
